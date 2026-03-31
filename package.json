@@ -1,0 +1,17 @@
+{
+  "name": "sharp-advisor-mcp",
+  "version": "1.0.0",
+  "description": "Gene Sharp nonviolent resistance corpus as a searchable MCP server",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "build-corpus": "node scripts/build-corpus.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

@@ -1,0 +1,137 @@
+{
+  "lockfile_version": "1",
+  "packages": {
+    "github:NixOS/nixpkgs/nixpkgs-unstable": {
+      "last_modified": "2026-03-23T13:48:00Z",
+      "resolved": "github:NixOS/nixpkgs/fdc7b8f7b30fdbedec91b71ed82f36e1637483ed?lastModified=1774273680&narHash=sha256-a%2B%2BtZ1RQsDb1I0NHrFwdGuRlR5TORvCEUksM459wKUA%3D"
+    },
+    "poppler@latest": {
+      "last_modified": "2026-03-21T07:29:51Z",
+      "resolved": "github:NixOS/nixpkgs/09061f748ee21f68a089cd5d91ec1859cd93d0be#poppler",
+      "source": "devbox-search",
+      "version": "25.10.0",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/hgcp71s36235d657jisfkrsypda6505p-poppler-glib-25.10.0",
+              "default": true
+            },
+            {
+              "name": "dev",
+              "path": "/nix/store/pxd57fkkdihcsyjsblb2rg6159ri3mqf-poppler-glib-25.10.0-dev"
+            }
+          ],
+          "store_path": "/nix/store/hgcp71s36235d657jisfkrsypda6505p-poppler-glib-25.10.0"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/d3jiv5m1a0w7jnb0mgj9piip2hh9j23c-poppler-glib-25.10.0",
+              "default": true
+            },
+            {
+              "name": "dev",
+              "path": "/nix/store/hdkbiksmaay1x8m59ch70gmazwh5xvl1-poppler-glib-25.10.0-dev"
+            }
+          ],
+          "store_path": "/nix/store/d3jiv5m1a0w7jnb0mgj9piip2hh9j23c-poppler-glib-25.10.0"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/hs7262yvrwhi8jgmghgwfrhmnj8nfv9g-poppler-glib-25.10.0",
+              "default": true
+            },
+            {
+              "name": "dev",
+              "path": "/nix/store/x43w6jn2jav0rmrgddj89x5k09qc3yn1-poppler-glib-25.10.0-dev"
+            }
+          ],
+          "store_path": "/nix/store/hs7262yvrwhi8jgmghgwfrhmnj8nfv9g-poppler-glib-25.10.0"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/glxi4vdmf5wjzma3r6f547kyfjll8ld3-poppler-glib-25.10.0",
+              "default": true
+            },
+            {
+              "name": "dev",
+              "path": "/nix/store/l7pry7g7wn8wnvnnviymil9kd0pr3g9x-poppler-glib-25.10.0-dev"
+            }
+          ],
+          "store_path": "/nix/store/glxi4vdmf5wjzma3r6f547kyfjll8ld3-poppler-glib-25.10.0"
+        }
+      }
+    },
+    "poppler_utils@latest": {
+      "last_modified": "2025-02-23T09:42:26Z",
+      "resolved": "github:NixOS/nixpkgs/2d068ae5c6516b2d04562de50a58c682540de9bf#poppler_utils",
+      "source": "devbox-search",
+      "version": "24.02.0",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/j22pbllykxgp6qxjzxxkf7lsa9ksr6hl-poppler-utils-24.02.0",
+              "default": true
+            },
+            {
+              "name": "dev",
+              "path": "/nix/store/5igv9k67d9jk5058kmcb6hpy86nqpgaj-poppler-utils-24.02.0-dev"
+            }
+          ],
+          "store_path": "/nix/store/j22pbllykxgp6qxjzxxkf7lsa9ksr6hl-poppler-utils-24.02.0"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/7gqivqw97cwvddyp86pvblilap60wv4q-poppler-utils-24.02.0",
+              "default": true
+            },
+            {
+              "name": "dev",
+              "path": "/nix/store/h4vw7qsifl3k7gymxv37imkg9jqbjss3-poppler-utils-24.02.0-dev"
+            }
+          ],
+          "store_path": "/nix/store/7gqivqw97cwvddyp86pvblilap60wv4q-poppler-utils-24.02.0"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/gwlpz8rrrag75nvgqraark8vklfaf75s-poppler-utils-24.02.0",
+              "default": true
+            },
+            {
+              "name": "dev",
+              "path": "/nix/store/5n01qxdmg1mcgakfg4c1rd2m8s36i0cs-poppler-utils-24.02.0-dev"
+            }
+          ],
+          "store_path": "/nix/store/gwlpz8rrrag75nvgqraark8vklfaf75s-poppler-utils-24.02.0"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/88w6rm2lh890ryj1xav5ns2c5zzgxxja-poppler-utils-24.02.0",
+              "default": true
+            },
+            {
+              "name": "dev",
+              "path": "/nix/store/c6pss1wgnsnp40wpl6jfzbb1mpr4g49d-poppler-utils-24.02.0-dev"
+            }
+          ],
+          "store_path": "/nix/store/88w6rm2lh890ryj1xav5ns2c5zzgxxja-poppler-utils-24.02.0"
+        }
+      }
+    }
+  }
+}
