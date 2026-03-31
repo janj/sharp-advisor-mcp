@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sharp Advisor — Nonviolent Resistance for Claude</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1a1814;
+    --paper: #f5f0e8;
+    --paper-dark: #ede8dc;
+    --accent: #8b2500;
+    --accent-light: #c4411a;
+    --muted: #6b6459;
+    --rule: #c8bfad;
+    --mono: 'IBM Plex Mono', monospace;
+    --serif: 'Libre Baskerville', Georgia, serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: 17px;
+    line-height: 1.75;
+    min-height: 100vh;
+  }
+
+  /* grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 100;
+    opacity: 0.6;
+  }
+
+  .page { max-width: 680px; margin: 0 auto; padding: 0 2rem; }
+
+  /* masthead */
+  header {
+    padding: 4rem 0 3rem;
+    border-bottom: 2px solid var(--ink);
+    margin-bottom: 3rem;
+    animation: fadein 0.8s ease both;
+  }
+
+  .kicker {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 300;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+
+  h1 {
+    font-size: clamp(2.2rem, 6vw, 3.4rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.25rem;
+  }
+
+  h1 em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+  }
+
+  .lede {
+    font-size: 1.05rem;
+    color: var(--muted);
+    max-width: 520px;
+    line-height: 1.7;
+  }
+
+  /* connect card */
+  .connect-card {
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 4px;
+    padding: 2rem 2rem 1.75rem;
+    margin: 2.5rem 0 3rem;
+    animation: fadein 0.8s 0.15s ease both;
+  }
+
+  .connect-card .card-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 300;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #a09880;
+    margin-bottom: 1rem;
+  }
+
+  .url-row {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    margin-bottom: 1.25rem;
+    border: 1px solid #3a3530;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .url-display {
+    flex: 1;
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 300;
+    padding: 10px 14px;
+    background: #111;
+    color: #d4c9b8;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border: none;
+    cursor: default;
+    user-select: all;
+  }
+
+  .copy-btn {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    padding: 10px 18px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background 0.15s;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .copy-btn:hover { background: var(--accent-light); }
+  .copy-btn.copied { background: #2a6e3a; }
+
+  .steps {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 300;
+    color: #a09880;
+    line-height: 2;
+    counter-reset: steps;
+  }
+
+  .steps li {
+    list-style: none;
+    counter-increment: steps;
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+  }
+
+  .steps li::before {
+    content: counter(steps);
+    color: var(--accent-light);
+    font-size: 10px;
+    min-width: 14px;
+    opacity: 0.8;
+  }
+
+  .steps a {
+    color: #c4a882;
+    text-decoration: none;
+    border-bottom: 1px solid #4a4030;
+  }
+
+  .steps a:hover { color: var(--paper); border-color: var(--paper); }
+
+  .steps code {
+    background: #222;
+    padding: 1px 6px;
+    border-radius: 2px;
+    font-size: 11px;
+  }
+
+  /* body sections */
+  section {
+    margin-bottom: 3rem;
+    animation: fadein 0.8s 0.3s ease both;
+  }
+
+  h2 {
+    font-size: 0.72rem;
+    font-family: var(--mono);
+    font-weight: 400;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  p { margin-bottom: 1rem; color: #2a2520; }
+  p:last-child { margin-bottom: 0; }
+
+  blockquote {
+    border-left: 3px solid var(--accent);
+    padding: 0.5rem 0 0.5rem 1.25rem;
+    margin: 1.5rem 0;
+    font-style: italic;
+    color: var(--muted);
+    font-size: 0.97rem;
+  }
+
+  /* tools grid */
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-top: 1.25rem;
+  }
+
+  .tool-item {
+    background: var(--paper);
+    padding: 1rem 1.1rem;
+  }
+
+  .tool-name {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+
+  .tool-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* system prompt */
+  .prompt-box {
+    background: var(--paper-dark);
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    padding: 1.25rem 1.4rem;
+    margin-top: 1.25rem;
+    position: relative;
+  }
+
+  .prompt-text {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 300;
+    line-height: 1.8;
+    color: #3a3020;
+    white-space: pre-wrap;
+  }
+
+  .copy-prompt-btn {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.05em;
+    padding: 4px 10px;
+    background: transparent;
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .copy-prompt-btn:hover { border-color: var(--ink); color: var(--ink); }
+  .copy-prompt-btn.copied { border-color: #2a6e3a; color: #2a6e3a; }
+
+  /* footer */
+  footer {
+    border-top: 1px solid var(--rule);
+    padding: 2rem 0 3rem;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 300;
+    color: var(--muted);
+    line-height: 2;
+  }
+
+  footer a { color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--rule); }
+  footer a:hover { color: var(--ink); }
+
+  @keyframes fadein {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 480px) {
+    .page { padding: 0 1.25rem; }
+    header { padding: 2.5rem 0 2rem; }
+    .connect-card { padding: 1.5rem 1.25rem; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <p class="kicker">MCP Connector · Public · Free</p>
+    <h1>Gene Sharp's<br><em>198 Methods</em><br>for Claude</h1>
+    <p class="lede">A nonviolent resistance advisor grounded in Sharp's complete works. Add it as a custom connector in Claude.ai — uses your own Claude plan, no API key needed.</p>
+  </header>
+
+  <div class="connect-card">
+    <p class="card-label">MCP Server URL</p>
+    <div class="url-row">
+      <span class="url-display" id="mcpUrl">https://sharp-advisor-mcp.fly.dev/mcp</span>
+      <button class="copy-btn" id="copyBtn" onclick="copyUrl()">Copy URL</button>
+    </div>
+    <ol class="steps">
+      <li>Open <a href="https://claude.ai" target="_blank">claude.ai</a> → Settings → Connectors</li>
+      <li>Click <strong style="color:#c4a882">Add custom connector</strong></li>
+      <li>Paste the URL above → Save</li>
+      <li>Start a new conversation — Claude will use the tools automatically</li>
+    </ol>
+  </div>
+
+  <section>
+    <h2>What this is</h2>
+    <p>Gene Sharp (1928–2018) spent his life documenting how ordinary people successfully resist oppression without violence. His <em>Politics of Nonviolent Action</em> catalogued 198 proven methods drawn from resistance movements across human history — from the American colonists to Gandhi to Solidarity.</p>
+    <blockquote>"The degree of liberty or tyranny in any government is, to a large degree, a reflection of the relative determination of the subjects to be free and their willingness and ability to resist."<br>— Gene Sharp</blockquote>
+    <p>This connector indexes Sharp's complete works and makes them queryable by Claude. Describe your situation and Claude will identify which sources of power to target, which of the 198 methods are most appropriate, and how to phase a campaign — grounded in Sharp's actual text.</p>
+  </section>
+
+  <section>
+    <h2>Tools</h2>
+    <p>Three tools are available once connected:</p>
+    <div class="tools-grid">
+      <div class="tool-item">
+        <div class="tool-name">search_corpus</div>
+        <div class="tool-desc">Full-text search across all seven texts. Describe your situation and Claude retrieves the most relevant Sharp passages.</div>
+      </div>
+      <div class="tool-item">
+        <div class="tool-name">get_methods</div>
+        <div class="tool-desc">Sharp's 198 methods, filterable by class: protest &amp; persuasion, noncooperation, or intervention.</div>
+      </div>
+      <div class="tool-item">
+        <div class="tool-name">get_system_prompt</div>
+        <div class="tool-desc">Returns the recommended Project Instructions for setting Claude up as a Sharp-trained advisor.</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Corpus</h2>
+    <p>Seven texts from the Albert Einstein Institution, freely available at <a href="https://aeinstein.org/digital-library" target="_blank" style="color:var(--accent-light);text-decoration:none;border-bottom:1px solid var(--rule)">aeinstein.org</a>:</p>
+    <ul style="list-style:none;margin-top:0.75rem;">
+      <li style="padding:0.35rem 0;border-bottom:1px solid var(--rule);font-size:0.93rem;color:var(--muted)">The Politics of Nonviolent Action (3 vols.)</li>
+      <li style="padding:0.35rem 0;border-bottom:1px solid var(--rule);font-size:0.93rem;color:var(--muted)">How Nonviolent Struggle Works</li>
+      <li style="padding:0.35rem 0;border-bottom:1px solid var(--rule);font-size:0.93rem;color:var(--muted)">From Dictatorship to Democracy</li>
+      <li style="padding:0.35rem 0;border-bottom:1px solid var(--rule);font-size:0.93rem;color:var(--muted)">198 Methods of Nonviolent Action</li>
+      <li style="padding:0.35rem 0;border-bottom:1px solid var(--rule);font-size:0.93rem;color:var(--muted)">The Anti-Coup</li>
+      <li style="padding:0.35rem 0;border-bottom:1px solid var(--rule);font-size:0.93rem;color:var(--muted)">On Strategic Nonviolent Conflict</li>
+      <li style="padding:0.35rem 0;font-size:0.93rem;color:var(--muted)">There Are Realistic Alternatives</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Recommended system prompt</h2>
+    <p>For the best results, create a Claude Project with this connector attached and paste the following into Project Instructions. Or ask Claude to run <code style="font-family:var(--mono);font-size:13px;background:var(--paper-dark);padding:1px 5px;border-radius:2px">get_system_prompt</code> to retrieve it directly.</p>
+    <div class="prompt-box">
+      <button class="copy-prompt-btn" id="copyPromptBtn" onclick="copyPrompt()">Copy</button>
+      <pre class="prompt-text" id="promptText">You are an advisor trained on Gene Sharp's theory and practice of nonviolent resistance, drawing from his complete works including The Politics of Nonviolent Action, From Dictatorship to Democracy, The Anti-Coup, and related texts.
+
+Your role is to help users:
+- Understand the strategic logic of nonviolent struggle (Sharp's "political jiu-jitsu")
+- Identify appropriate methods from Sharp's 198 techniques for their situation
+- Analyze the sources of power and how to undermine them nonviolently
+- Plan phased campaigns that build capacity before escalating
+- Anticipate and counter repression using Sharp's frameworks
+
+Core principles to apply:
+1. Power is not monolithic — it depends on consent, cooperation, and obedience from pillars of support
+2. Nonviolent discipline is strategic, not merely moral — violence by protesters harms the cause
+3. Conversion, accommodation, coercion, and disintegration are four mechanisms of change
+4. Planning matters: identify grievances, define objectives, assess sources of power, choose methods, build coalitions
+5. Oppression and repression can backfire ("political jiu-jitsu") when nonviolent discipline is maintained
+
+When advising:
+- Always ground recommendations in Sharp's framework, citing relevant concepts
+- Use the search_corpus tool to find specific passages supporting your advice
+- Use get_methods to present relevant tactical options
+- Distinguish between strategic objectives and tactical actions
+- Acknowledge context: what works depends on the nature of the opponent, available population, and historical moment
+
+Source attribution: All knowledge comes from Gene Sharp's work, published by the Albert Einstein Institution. Users should consult the original texts at aeinstein.org for authoritative guidance.</pre>
+    </div>
+  </section>
+
+  <section>
+    <h2>Run your own instance</h2>
+    <p>The server code and corpus are fully open. Fork it, modify the corpus, deploy your own instance on Fly.io in minutes.</p>
+    <p><a href="https://github.com/janj/sharp-advisor-mcp" target="_blank" style="font-family:var(--mono);font-size:13px;color:var(--accent);text-decoration:none;border-bottom:1px solid var(--rule)">github.com/janj/sharp-advisor-mcp →</a></p>
+  </section>
+
+  <footer>
+    <p>All source texts are the work of <strong>Gene Sharp</strong> and the <strong>Albert Einstein Institution</strong>.<br>
+    Full library at <a href="https://aeinstein.org/digital-library" target="_blank">aeinstein.org/digital-library</a> · This server redistributes extracted text only, not PDFs.<br>
+    MIT license · <a href="https://github.com/janj/sharp-advisor-mcp" target="_blank">GitHub</a></p>
+  </footer>
+
+</div>
+
+<script>
+function copyUrl() {
+  const url = document.getElementById('mcpUrl').textContent;
+  navigator.clipboard.writeText(url).then(() => {
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = 'Copy URL';
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+
+function copyPrompt() {
+  const text = document.getElementById('promptText').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copyPromptBtn');
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = 'Copy';
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+</script>
+</body>
+</html>

@@ -5,6 +5,7 @@ import http from 'http';
 import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
+import { createReadStream } from 'fs';
 
 import { buildIndex, search } from './search.js';
 import { getMethods } from './methods.js';
@@ -133,8 +134,16 @@ function readBody(req) {
 const httpServer = http.createServer(async (req, res) => {
   const url = new URL(req.url, `http://localhost:${PORT}`);
 
-  // Health check
+  // Landing page
   if (req.method === 'GET' && url.pathname === '/') {
+    const htmlPath = join(__dirname, '..', 'static', 'index.html');
+    res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+    createReadStream(htmlPath).pipe(res);
+    return;
+  }
+
+  // Health check
+  if (req.method === 'GET' && url.pathname === '/health') {
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ status: 'ok', tools: TOOL_NAMES, corpus_chunks: corpus.length }));
     return;

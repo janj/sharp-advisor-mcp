@@ -7,6 +7,7 @@ RUN npm ci --omit=dev
 
 COPY src/ ./src/
 COPY corpus/ ./corpus/
+COPY static/ ./static/
 
 ENV NODE_ENV=production
 ENV PORT=3000
