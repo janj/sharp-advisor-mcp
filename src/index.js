@@ -46,6 +46,10 @@ Source attribution: All knowledge comes from Gene Sharp's work, published by the
 
 const TOOL_NAMES = ['search_corpus', 'get_methods', 'get_system_prompt'];
 
+function log(tool, params) {
+  console.log(JSON.stringify({ ts: new Date().toISOString(), tool_call: tool, ...params }));
+}
+
 function createMcpServer() {
   const server = new McpServer({
     name: 'sharp-advisor-mcp',
@@ -60,6 +64,7 @@ function createMcpServer() {
       limit: z.number().int().min(1).max(20).optional().default(5).describe('Number of results to return (default 5, max 20)'),
     },
     async ({ query, limit }) => {
+      log('search_corpus', { query: query.slice(0, 120), limit });
       const results = search(query, corpus, index, limit);
       if (results.length === 0) {
         return { content: [{ type: 'text', text: 'No relevant passages found for that query.' }] };
@@ -83,6 +88,7 @@ function createMcpServer() {
       ),
     },
     async ({ class: classFilter }) => {
+      log('get_methods', { class: classFilter ?? 'all' });
       const methods = getMethods(classFilter);
       const grouped = {};
       for (const m of methods) {
@@ -109,6 +115,7 @@ function createMcpServer() {
     'Returns the recommended system prompt to use when setting up a Claude Project with this connector. Paste this into your Project Instructions to configure Claude as a Sharp-trained nonviolent resistance advisor.',
     {},
     async () => {
+      log('get_system_prompt', {});
       return { content: [{ type: 'text', text: SYSTEM_PROMPT }] };
     }
   );
